@@ -1,0 +1,7 @@
+Some javascript object model extensions, as well as browser extensions that 
+I find pretty essential.
+
+js-extensions are extensions to javascript directly, they should be usable both 
+client-side and server-side.
+
+browser-extensions are scripts that are to be used inside of a web browser.
