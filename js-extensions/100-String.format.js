@@ -1,4 +1,4 @@
-﻿//console.debug("begin string.toformat.js");
+//console.debug("begin string.toformat.js");
 /***** Begin String.format - MIT License ************************************
 
 Copyright (c) 2009 - Michael J. Ryan (http://tracker1.info)
@@ -26,7 +26,7 @@ Thanks for the inspiration - http://blairmitchelmore.com/javascript/string.forma
 
 //inline arguments
 String.format(
-	"some string with {0} and {1} injected using argument {{number}}", 
+    "some string with {0} and {1} injected using argument {{number}}", 
 	'first value', 
 	'second value'
 );
@@ -63,8 +63,8 @@ returns: 'some string with first value and second value injected using {property
 	//gets the format method to use for the object instance
 	//		don't expose this method, it isn't safe for use outside this script
 	function getFormatter(obj) {
-		//it's a string, use default toString method
-		if (typeof obj == "string") {
+		//it's a string, undefined or null, use default toString method
+		if (typeof obj == "string" || typeof obj == "undefined" || obj === null) {
 			return String.prototype.toString;
 		}
 		
@@ -106,10 +106,21 @@ returns: 'some string with first value and second value injected using {property
 
 		//a formatter was found, use it
 		if (formatter) {
-			if (isEmpty(format))
-				return formatter.call(obj);
-			else
+			if (isEmpty(format)) {
+				try {
+					return formatter.call(obj);
+				} catch(err) {
+					//errors with Microsoft Ajax Toolkit
+					try {
+						return formatter.call(obj,"");	
+					} catch(err1) {
+						if (typeof console != "undefined") (console.error || console.log)(err1);
+						return ""; //unable to format
+					}
+				}
+			} else {
 				return formatter.call(obj,format);
+			}
 		}
 		else
 			return ""; //no formatter, use empty string, this should *NEVER* happen.
@@ -132,7 +143,7 @@ returns: 'some string with first value and second value injected using {property
 		
 		//it's an array, use it as one - recursive call
 		if (source && source.length) 
-			return String.format.apply(source[0], Array.prototype.slice.call(arguments, 0, 1))
+			return String.format.apply(source[0], Array.prototype.slice.call(arguments, 0, 1));
 		
 		//force it to a string
 		return String(source);
@@ -157,7 +168,7 @@ returns: 'some string with first value and second value injected using {property
 		}
 		
 		//return normalized input parameters
-		return params
+		return params;
 	}
 	
 	function stringformat(source, params) {
@@ -167,7 +178,7 @@ returns: 'some string with first value and second value injected using {property
 		}
 			
 		//normalize the input parameters
-		var params = setParams.apply(null, arguments);
+		params = setParams.apply(null, arguments);
 		var outerLength = arguments.length;
 			
 		//run a replace method against the source string, matching against
@@ -192,11 +203,14 @@ returns: 'some string with first value and second value injected using {property
 			}
 		);
 		return ret;
-	};
+	}
 
 	//main string formatter
 	if (typeof String.format != "function") {
 		String.format = stringformat;
+	}
+	if (typeof String.asFormat != "function") {
+		String.asFormat = stringformat;
 	}
 
 
@@ -205,11 +219,17 @@ returns: 'some string with first value and second value injected using {property
 		String.prototype.format = function() {
 			var args = Array.prototype.slice.call(arguments);
 			args.unshift(this);
-			return String.format.apply(null, args);
+			return stringformat.apply(null, args);
 		};
 	}
-
-
+	if (typeof String.prototype.asFormat != "function") {
+		String.prototype.asFormat = function() {
+			var args = Array.prototype.slice.call(arguments);
+			args.unshift(this);
+			return stringformat.apply(null, args);
+		};
+	}
+	
 })();
 
 //console.debug("begin string.toformat.js");
