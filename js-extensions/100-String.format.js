@@ -148,9 +148,11 @@ returns: 'some string with first value and second value injected using {property
 		//force it to a string
 		return String(source);
 	}
-	
+    
 	//normalize arguments into parameter array
 	function setParams() {
+		var undef; //undefined value
+
 		//remove first item from stack
 		var params = Array.prototype.slice.call(arguments, 1);
 		
@@ -158,6 +160,9 @@ returns: 'some string with first value and second value injected using {property
 		if (params.length == 1) {
 			//set the params to the instance of the one param
 			params = params[0];
+
+			//use an empty string for null and undefined valuse
+			if (params === null || params === undef) return [''];
 			
 			//reference to the type of params
 			var t = typeof params;
