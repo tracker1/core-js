@@ -1,4 +1,4 @@
-﻿/***** Begin ECMAScript 5 ISO Support - MIT License ***************************
+/***** Begin ECMAScript 5 ISO Support - MIT License ***************************
 
 Copyright (c) 2009 - Michael J. Ryan (http://tracker1.info)
 
@@ -70,13 +70,6 @@ There is also an additional Date.fromISOString definition for use as needed.
 	if (typeof Date.prototype.toISOString != 'function') {
 		//Add a toISOString method.
 		Date.prototype.toISOString = function() {
-			//method to zero-pad a string
-			var zpad = function(len, input) {
-				var ret = String(input);
-				while (ret.length < len)
-					ret = '0' + ret;
-				return ret;
-			};
 
 			var y = zpad(4, this.getUTCFullYear());
 			var m = zpad(2, this.getUTCMonth() + 1);
@@ -88,6 +81,34 @@ There is also an additional Date.fromISOString definition for use as needed.
 			return y + '-' + m + '-' + d + 'T' + h + ':' + n + ':' + s + '.' + ms + 'Z';
 		}
 	}
+    
+    //Method to create a localized ISO-8601 string with local offset
+    if (typeof Date.prototype.toLocalISOString != 'function') {
+        Date.prototype.toLocalISOString = function() {
+    		var y = zpad(4, this.getFullYear());
+			var m = zpad(2, this.getMonth() + 1);
+			var d = zpad(2, this.getDate());
+			var h = zpad(2, this.getHours());
+			var n = zpad(2, this.getMinutes());
+			var s = zpad(2, this.getSeconds());
+			var ms = zpad(3, this.getMilliseconds());
+            
+            var ret = y + '-' + m + '-' + d + 'T' + h + ':' + n + ':' + s + '.' + ms;
+            
+            var offset = new Date(0) - new Date(1970,0,1);
+            if (offset == 0) return ret + 'Z';
+
+            ret += (offset < 0 ? '-' : '+');
+            
+            if (offset < 0) offset = -offset;
+            var offsetmin = Math.floor(offset / (1000 * 60));
+            var offsethrs = Math.floor(offsetmin / 60);
+            offsetmin = offsetmin % 60;
+            ret += zpad(2,offsethrs) + ':' + zpad(2,offsetmin);
+            
+            return ret;
+        }
+    }
 	
 	if (typeof Date.fromISOString != 'function') {
 		//method to handle conversion from an ISO-8601 style string to a Date object
@@ -149,6 +170,15 @@ There is also an additional Date.fromISOString definition for use as needed.
 		}
 	}
 	
+    
+	//method to zero-pad a string
+	function zpad(len, input) {
+		var ret = String(input);
+		while (ret.length < len)
+			ret = '0' + ret;
+		return ret;
+	};
+
 })();
 /***** End of ECMAScript v5 ISO support **************************************/
 
