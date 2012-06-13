@@ -1,4 +1,4 @@
-﻿/*============================================================================
+/*============================================================================
 Simple Browser Detection Script
 Author: Michael J. Ryan (http://tracker1.info)
 
@@ -11,7 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 Browser matching for various browser.
 
-	browser.ie
+    browser.ie
 	browser.gecko
 		browser.firefox
 	browser.khtml
@@ -19,6 +19,10 @@ Browser matching for various browser.
 			browser.chrome
 			browser.safari
 	browser.opera
+    
+Browser feature detection.
+    browser.phone
+    browser.doublePixel
 
 recommended:
 	use browser.gecko over browser.firefox
@@ -26,7 +30,7 @@ recommended:
 
 ============================================================================*/
 //console.debug("begin browser.js");
-(function(b){
+(function (b) {
 	b.any = !!(navigator && navigator.userAgent);
 	if (!b.any) return;
 
@@ -44,11 +48,14 @@ recommended:
 	b.chrome = parseFloat(b.webkit && bm(/Chrome\/(\d+\.\d+)/)) || null;
 	b.safari = parseFloat(b.webkit && bm(/Safari\/(\d+\.\d+)/) && bm(/Version\/(\d+\.\d+)/)) || null;
 	b.opera = parseFloat(bm(/Opera\/(\d+\.\d+)/) && bm(/Version\/(\d+\.\d+)/)) || bm(/Opera\/(\d+\.\d+)/) || null;
-	b.ie =  (function(){ //http://ajaxian.com/archives/attack-of-the-ie-conditional-comment
+	b.ie = (function () { //http://ajaxian.com/archives/attack-of-the-ie-conditional-comment
 		var v = 4, div = document.createElement('div');
-		while (div.innerHTML = '<!--[if gt IE '+(++v)+']><i></i><![endif]-->',div.getElementsByTagName('i')[0]);
+		while (div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->', div.getElementsByTagName('i')[0]);
 		return v > 5 ? v : null;
-	}());
+	} ());
+
+	b.phone = !!navigator.userAgent.match(/phone|mobile/ig) || null;
+	b.doublePixel = (window.devicePixelRatio || 1) >= 2 || null;
 
 	//delete empty values
 	for (var x in b) {
@@ -58,5 +65,5 @@ recommended:
 
 	//disable IE matching for older Opera versions.
 	if (b.opera && b.ie) delete b.ie;
-}(this.browser = this.browser || {}));
+} (this.browser = this.browser || {}));
 //console.debug("end browser.js");
