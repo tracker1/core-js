@@ -1,12 +1,20 @@
 /*============================================================================
 Simple Browser Detection Script
 Author: Michael J. Ryan (http://tracker1.info)
+------------------------------------------------------------------------------
 
-Public Domain
+License: WTFPL version 2.1
 
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+Copyright (C) 2012 Michael J. Ryan (http://tracker1.info/)
+
+Everyone is permitted to copy and distribute verbatim or modified
+copies of this licensed document, and changing it is allowed as long
+as the name is changed.
+
+  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+ 0. You just DO WHAT THE F*CK YOU WANT TO.
+
 ------------------------------------------------------------------------------
 
 Browser matching for various browser.
