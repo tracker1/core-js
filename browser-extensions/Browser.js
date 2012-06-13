@@ -1,19 +1,9 @@
 /*============================================================================
 Simple Browser Detection Script
-Author: Michael J. Ryan (http://tracker1.info)
-------------------------------------------------------------------------------
-
-License: WTFPL version 2.1
 
 Copyright (C) 2012 Michael J. Ryan (http://tracker1.info/)
 
-Everyone is permitted to copy and distribute verbatim or modified
-copies of this licensed document, and changing it is allowed as long
-as the name is changed.
-
-  TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
- 0. You just DO WHAT THE F*CK YOU WANT TO.
+License: CC0 - http://creativecommons.org/publicdomain/zero/1.0/legalcode
 
 ------------------------------------------------------------------------------
 
