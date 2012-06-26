@@ -31,7 +31,7 @@ There is also an additional Date.fromISOString definition for use as needed.
 //console.debug("begin dateextensions.js");
 (function(){
 
-	//create handle to the original date object class
+    //create handle to the original date object class
 	var OriginalDate = Date;
 
 	//parsing of ISO dates ex: new Date('1970-01-01T00:00:00.000Z');
@@ -81,34 +81,34 @@ There is also an additional Date.fromISOString definition for use as needed.
 			return y + '-' + m + '-' + d + 'T' + h + ':' + n + ':' + s + '.' + ms + 'Z';
 		};
 	}
-    
-    //Method to create a localized ISO-8601 string with local offset
-    if (typeof Date.prototype.toLocalISOString != 'function') {
-        Date.prototype.toLocalISOString = function() {
-    		var y = zpad(4, this.getFullYear());
+	
+	//Method to create a localized ISO-8601 string with local offset
+	if (typeof Date.prototype.toLocalISOString != 'function') {
+		Date.prototype.toLocalISOString = function() {
+			var y = zpad(4, this.getFullYear());
 			var m = zpad(2, this.getMonth() + 1);
 			var d = zpad(2, this.getDate());
 			var h = zpad(2, this.getHours());
 			var n = zpad(2, this.getMinutes());
 			var s = zpad(2, this.getSeconds());
 			var ms = zpad(3, this.getMilliseconds());
-            
-            var ret = y + '-' + m + '-' + d + 'T' + h + ':' + n + ':' + s + '.' + ms;
-            
-            var offset = new Date(0) - new Date(1970,0,1);
-            if (offset == 0) return ret + 'Z';
+			
+			var ret = y + '-' + m + '-' + d + 'T' + h + ':' + n + ':' + s + '.' + ms;
+			
+			var offset = new Date(0) - new Date(1970,0,1);
+			if (offset == 0) return ret + 'Z';
 
-            ret += (offset < 0 ? '-' : '+');
-            
-            if (offset < 0) offset = -offset;
-            var offsetmin = Math.floor(offset / (1000 * 60));
-            var offsethrs = Math.floor(offsetmin / 60);
-            offsetmin = offsetmin % 60;
-            ret += zpad(2,offsethrs) + ':' + zpad(2,offsetmin);
-            
-            return ret;
-        };
-    }
+			ret += (offset < 0 ? '-' : '+');
+			
+			if (offset < 0) offset = -offset;
+			var offsetmin = Math.floor(offset / (1000 * 60));
+			var offsethrs = Math.floor(offsetmin / 60);
+			offsetmin = offsetmin % 60;
+			ret += zpad(2,offsethrs) + ':' + zpad(2,offsetmin);
+			
+			return ret;
+		};
+	}
 	
 	if (typeof Date.fromISOString != 'function') {
 		//method to handle conversion from an ISO-8601 style string to a Date object
@@ -128,8 +128,8 @@ There is also an additional Date.fromISOString definition for use as needed.
 
 			var d = input.match(iso8601Format);
 			var offset = 0;
-            
-            var date = new Date(+d[1], +d[2]-1, +d[3], +d[7] || 0, +d[8] || 0, +d[10] || 0, Math.round(+("0." + (d[12] || 0)) * 1000));
+			
+			var date = new Date(+d[1], +d[2]-1, +d[3], +d[7] || 0, +d[8] || 0, +d[10] || 0, Math.round(+("0." + (d[12] || 0)) * 1000));
 		
 			//use specified offset
 			if (d[13] == 'Z') offset = 0-date.getTimezoneOffset();
@@ -170,7 +170,7 @@ There is also an additional Date.fromISOString definition for use as needed.
 		};
 	}
 	
-    
+	
 	//method to zero-pad a string
 	function zpad(len, input) {
 		var ret = String(input);
@@ -189,7 +189,7 @@ There is also an additional Date.fromISOString definition for use as needed.
 //Extend static values on the Date class
 Date.constants = {
 	clrMin:new Date(-62135571600000)
-    ,clrMax:new Date(253402300799999)
+	,clrMax:new Date(253402300799999)
 	,sqlMin:new Date("1900-01-01Z")
 	,msAjaxFormatEarly:/\"\\\/Date\((\-?\d+)\)\\\/\"/g
 	,msAjaxFormat:/^\/Date\((\-?\d+)\)\/$/
@@ -393,7 +393,7 @@ Date.prototype.daysElapsed = function() {
 
 //Method to create a localized ISO-8601 string with local offset
 if (typeof Date.prototype.toLocalISOString != 'function') {
-    Date.prototype.toLocalISOString = function() {
+	Date.prototype.toLocalISOString = function() {
 		//method to zero-pad a string
 		function zpad(len, input) {
 			var ret = String(input);
