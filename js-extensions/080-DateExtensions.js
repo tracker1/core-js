@@ -54,7 +54,7 @@ There is also an additional Date.fromISOString definition for use as needed.
 				default: //max of 10 arguments supported
 					return new OriginalDate(arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8], arguments[9]);
 			}
-		}
+		};
 		
 		//Clone methods on OriginalDate
 		for (var x in OriginalDate)
@@ -79,7 +79,7 @@ There is also an additional Date.fromISOString definition for use as needed.
 			var s = zpad(2, this.getUTCSeconds());
 			var ms = zpad(3, this.getUTCMilliseconds());
 			return y + '-' + m + '-' + d + 'T' + h + ':' + n + ':' + s + '.' + ms + 'Z';
-		}
+		};
 	}
     
     //Method to create a localized ISO-8601 string with local offset
@@ -107,7 +107,7 @@ There is also an additional Date.fromISOString definition for use as needed.
             ret += zpad(2,offsethrs) + ':' + zpad(2,offsetmin);
             
             return ret;
-        }
+        };
     }
 	
 	if (typeof Date.fromISOString != 'function') {
@@ -118,18 +118,18 @@ There is also an additional Date.fromISOString definition for use as needed.
 			//early shorting of invalid input
 			if (typeof input !== "string" || input.length < 10 || input.length > 40) return null;
 		
-			var iso8601Format = /^(\d{4})-(\d{2})-(\d{2})((([T ](\d{2}):(\d{2})(:(\d{2})(\.(\d{1,12}))?)?)?)?)?([Zz]|([-+])(\d{2}):(\d{2}))?$/;
+			var iso8601Format = /^(\d{4})-(\d{2})-(\d{2})((([T ](\d{2}):(\d{2})(:(\d{2})(\.(\d{1,12}))?)?)?)?)?([Zz]|([\-+])(\d{2}):(\d{2}))?$/;
 		
 			//normalize input
-			var input = input.toString().replace(/^\s+/,'').replace(/\s+$/,'');
+			input = input.toString().replace(/^\s+/,'').replace(/\s+$/,'');
 		
 			if (!iso8601Format.test(input))
 				return null; //invalid format
 
 			var d = input.match(iso8601Format);
 			var offset = 0;
-	    
-			var date = new Date(+d[1], +d[2]-1, +d[3], +d[7] || 0, +d[8] || 0, +d[10] || 0, Math.round(+("0." + (d[12] || 0)) * 1000));
+            
+            var date = new Date(+d[1], +d[2]-1, +d[3], +d[7] || 0, +d[8] || 0, +d[10] || 0, Math.round(+("0." + (d[12] || 0)) * 1000));
 		
 			//use specified offset
 			if (d[13] == 'Z') offset = 0-date.getTimezoneOffset();
@@ -161,13 +161,13 @@ There is also an additional Date.fromISOString definition for use as needed.
 			ret.setUTCFullYear(year, month, date);
 			ret.setUTCHours(Number(hours), Number(minutes), Number(seconds), Number(ms));
 			return ret.getTime(); //returns a number
-		}
+		};
 	}
 	
 	if (typeof Date.now != 'function') {
 		Date.now = function() {
 			return new Date().getTime();
-		}
+		};
 	}
 	
     
@@ -177,7 +177,7 @@ There is also an additional Date.fromISOString definition for use as needed.
 		while (ret.length < len)
 			ret = '0' + ret;
 		return ret;
-	};
+	}
 
 })();
 /***** End of ECMAScript v5 ISO support **************************************/
@@ -189,7 +189,7 @@ There is also an additional Date.fromISOString definition for use as needed.
 //Extend static values on the Date class
 Date.constants = {
 	clrMin:new Date(-62135571600000)
-	,clrMax:new Date(253402300799999)
+    ,clrMax:new Date(253402300799999)
 	,sqlMin:new Date("1900-01-01Z")
 	,msAjaxFormatEarly:/\"\\\/Date\((\-?\d+)\)\\\/\"/g
 	,msAjaxFormat:/^\/Date\((\-?\d+)\)\/$/
@@ -199,11 +199,11 @@ Date.constants = {
 	,day: 1000 * 60 * 60 * 24
 	,practicalMinYear: 1900
 	,practicalMaxYear: (new Date()).getFullYear() + 10
-}
+};
 
 Date.now = function(){
 	return new Date();
-}
+};
 
 Date.practicalParse = function(val) {
 	try {
@@ -230,13 +230,13 @@ Date.practicalParse = function(val) {
 		return null;
 
 	}
-}
+};
 
 /*** Begin UTC/Local conversion support ***************************************
 Methods for converting to/from UTC and identifying additional attributes 
 for date/time logic.
 ******************************************************************************/
-	Date.kind = { "unspecified":"Unspecified", "utc":"Utc", "local":"Local" }
+	Date.kind = { "unspecified":"Unspecified", "utc":"Utc", "local":"Local" };
 
 	Date.prototype.kind = Date.kind.unspecified;
 
@@ -257,11 +257,11 @@ for date/time logic.
 		else date.kind = Date.kind.unspecified;
 		
 		return date;
-	}
+	};
 
 	Date.prototype.specifyKind = function(kind) {
 		return Date.specifyKind(this, kind);
-	}
+	};
 
 	//convert from utc time to local time
 	Date.prototype.toLocal = function() {
@@ -297,7 +297,7 @@ for date/time logic.
 
 		this.toString = Date.prototype.toString;
 		return this;
-	}
+	};
 
 	//convert a local time to utc
 	Date.prototype.toUTC = function() {
@@ -329,11 +329,11 @@ for date/time logic.
 		this.setMonth = Date.prototype.setUTCMonth;
 		this.setSeconds = Date.prototype.setUTCSeconds;
 		this.setTimeout = Date.prototype.setUTCTimeout;
-		this.setYear = function(year) { if (!isNaN(year)) this.setFullYear(year + 1900); }
+		this.setYear = function(year) { if (!isNaN(year)) this.setFullYear(year + 1900); };
 
 		this.toString = Date.prototype.toUTCString;
 		return this;
-	}
+	};
 /*** End UTC/Local conversion support ****************************************/
 
 
@@ -347,12 +347,12 @@ Date.fromMsAjax= function(jsonString) {
 	
 	if (jsonString instanceof Date) return jsonString; //already a date
 	
-	jsonString = jsonString.toString().replace(/^\s+/,'').replace(/\s+$/,'')
+	jsonString = jsonString.toString().replace(/^\s+/,'').replace(/\s+$/,'');
 	if (!msAjaxFormat.test(jsonString.trim()))
 		return null; //invalid format
 
 	var dv = jsonString.toString().trim().replace(msAjaxFormat, '$1');
-	dv = parseInt(dv);
+	dv = parseInt(dv,10);
 	if (!isNaN(dv)) {
 		dv = new Date(dv);
 		if (dv.getTime() <= new Date(-62135571600000).getTime()) // CLR DateTime.MinValue
@@ -361,14 +361,14 @@ Date.fromMsAjax= function(jsonString) {
 	}
 	
 	return null; //invalid
-}
+};
 
 //Extend the instance prototype for Date objects
 Date.prototype.date = function() {
 	var ret = new Date(this.getTime());
 	ret.setHours(0, 0, 0, 0);
 	return ret;
-}
+};
 
 
 Date.prototype.daysElapsed = function() {
@@ -388,7 +388,66 @@ Date.prototype.daysElapsed = function() {
 	}
 	
 	return ret;
+};
+
+
+//Method to create a localized ISO-8601 string with local offset
+if (typeof Date.prototype.toLocalISOString != 'function') {
+    Date.prototype.toLocalISOString = function() {
+		//method to zero-pad a string
+		function zpad(len, input) {
+			var ret = String(input);
+			while (ret.length < len)
+				ret = '0' + ret;
+			return ret;
+		}
+
+		var ret = [
+			zpad(4, this.getFullYear())
+			,'-',zpad(2, this.getMonth() + 1)
+			,'-',zpad(2, this.getDate())
+			,'T',zpad(2, this.getHours())
+			,':',zpad(2, this.getMinutes())
+			,':',zpad(2, this.getSeconds())
+			,'.',zpad(3, this.getMilliseconds())
+		].join('');
+			
+		var offset = new Date(0) - new Date(1970,0,1); //offset from UTC to local value.
+		if (offset === 0) return ret + 'Z';
+
+		ret += (offset < 0 ? '-' : '+');
+			
+		if (offset < 0) offset = -offset;
+		var offsetmin = Math.floor(offset / (1000 * 60));
+		var offsethrs = Math.floor(offsetmin / 60);
+		offsetmin = offsetmin % 60;
+		ret += zpad(2,offsethrs) + ':' + zpad(2,offsetmin);
+			
+		return ret;
+	};
 }
 
+(function(){
+	var y = new Date().getFullYear();
+	var a = new Date(y, 0, 1).getTimezoneOffset(); //january
+	var b = new Date(y, 6, 1).getTimezoneOffset(); //july
 
+	//if the offset is the same, then DST isn't used on this system
+	Date.supportsDaylightSavingTime = (a != b);
+	Date.isDaylightSavingTime = new Date().getTimezoneOffset() != Math.max(a,b);
+
+	//get the regular offset
+	var o = Date.baseUTCOffset = -Math.max(a,b);
+	var h = Math.floor(Math.max(o,-o) / 60);
+	var m = Math.max(o,-o) % 60;
+	h = (h<10) ? "0" + h : h;
+	m = (m<10) ? "0" + m : m;
+
+	//setup GMT zone difference
+	var tz = "UTC";
+	if (o < 0) tz += "-" + h + ":" + m;
+	if (o > 0) tz += "+" + h + ":" + m;
+	Date.baseUTCOffsetString = tz;
+	Date.baseGMTOffsetString = tz.replace("UTC","GMT");
+}());
 //console.debug("end dateextensions.js");
