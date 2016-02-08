@@ -82,7 +82,6 @@ function setBrowser(agent, platform) {
 	// Mainstream browsers
 	if (matchBrowser(agent, platform, "firefox", /\bfirefox\/(\d+(\.\d+)*)/i)) return;
 	if (matchBrowser(agent, platform, "chrome", /\bchrome\/(\d+(\.\d+)*)/i)) return;
-	if (matchBrowser(agent, platform, "chrome", /\bsamsung\/(\d+(\.\d+)*)/i)) return;
 	if (matchBrowser(agent, platform, "safari", /\bversion\/(\d+(\.\d+)*).+\bsafari/i)) return;
 }
 
