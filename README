@@ -1,3 +1,8 @@
+NOTE: Most of this stuff is *REALLY* old now, and you probably want to use 
+more modern modules from npm.
+
+---
+
 Some javascript object model extensions, as well as browser extensions that 
 I find pretty essential.
 
